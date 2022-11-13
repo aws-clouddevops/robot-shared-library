@@ -8,7 +8,7 @@ def lintCheck() {
 def call() {
     pipeline {
         agent any
-        stages {}
+        stages {
             stage('Lint Checks') {
                 steps {
                     script {
