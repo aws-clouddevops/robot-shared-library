@@ -7,6 +7,12 @@ def lintCheck() {
          echo Lint checks completed for $(COMPONENT)
     '''
 }
+def sonarcheck() {
+    sh '''
+        sonar-scanner -Dsonar.host.url=http://172.31.7.40:9000 -Dsonar.sources. -Dsonar.projectKey=${COMPONENT} -Dsonar.login=admin -Dsonar.password=password
+
+    '''
+}
 def call() {
     pipeline {
         agent any
@@ -21,6 +27,13 @@ def call() {
                 steps {
                     script {
                         lintCheck()
+                    }
+                }
+            }
+            stage('Sonar Checks') {
+                steps {
+                    script {
+                        sonarCheck()
                     }
                 }
             }
