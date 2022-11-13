@@ -1,7 +1,7 @@
 def lintCheck() {
     sh '''
          echo starting lint checks ${COMPONENT}
-         mvn checkstyle:check || true           # link checks
+         # pylint *.py           # link checks
          echo Lint checks completed for ${COMPONENT}
     '''
 }
