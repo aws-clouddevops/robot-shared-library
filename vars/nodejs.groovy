@@ -7,7 +7,7 @@ def lintCheck() {
          echo Lint checks completed for $(COMPONENT)
     '''
 }
-def sonarcheck() {
+def sonarCheck() {
     sh '''
         sonar-scanner -Dsonar.host.url=http://172.31.7.40:9000 -Dsonar.sources. -Dsonar.projectKey=${COMPONENT} -Dsonar.login=admin -Dsonar.password=password
 
