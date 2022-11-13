@@ -4,7 +4,7 @@ def lintCheck() {
          # npm i jslint
          # node_modules/jslint/bin/jslint.js server.js || true
          echo starting lint checks
-         echo Lint checks completed
+         echo Lint checks completed for $(COMPONENT)
     '''
 }
 def call() {
