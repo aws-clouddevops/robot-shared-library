@@ -9,3 +9,5 @@ def info(message, URL) {            //Declaring a Function in groovy
 }
 
 info("Hai" , "google.com") // Calling a Function in groovy
+
+// nodejs.lintCheck() // When we want to call it from external file
