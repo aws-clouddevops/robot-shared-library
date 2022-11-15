@@ -43,6 +43,22 @@ def call() {
                 }            
             }
         }
+        stage('Prepare Artifacts') {
+            when {
+                expression { env.TAG_NAME != null} // Only runs whden you run against a tag
+            }
+            steps{
+                echo 'echo'
+                 }
+            }
+        stage('Upload Artifacts') {
+            when {
+                expression { env.TAG_NAME != null}
+            }
+            steps{
+                echo 'echo'
+                 }
+            }  
         }
     }
 }
