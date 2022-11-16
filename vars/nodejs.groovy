@@ -62,7 +62,7 @@ def call() {
             }
             steps{
                 script{
-                    env.def UPLOAD_STATUS=sh(returnstdout: true, script: "curl http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip" || true)
+                    env.UPLOAD_STATUS=sh(returnstdout: true, script: 'curl -L -s http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true')
                     print UPLOAD_STATUS
                     }
                 }
@@ -82,7 +82,8 @@ def call() {
             }
         stage('Upload Artifacts') {
             when {
-                expression { env.TAG_NAME != null }
+                expression { env.TAG_NAME != null } // Only runs when you run this against the tag
+                expression { env.UP<OAD_STATUS == ""}
             }
             steps{
                 sh '''
