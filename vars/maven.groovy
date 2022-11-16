@@ -1,10 +1,20 @@
-def lintCheck() {
-    sh '''
-         echo starting lint checks ${COMPONENT}
-         mvn checkstyle:check || true           # link checks
-         echo Lint checks completed for ${COMPONENT}
-    '''
+
+def call() {
+    node {
+        env.APPTYPE='maven'
+        common.lintCheck()
+        env.ARGS="-Dsonar.sources=."
+        common.sonarCheck()
+        common.testCases()
+    }
 }
+// def lintCheck() {
+//     sh '''
+//          echo starting lint checks ${COMPONENT}
+//          mvn checkstyle:check || true           # link checks
+//          echo Lint checks completed for ${COMPONENT}
+//     '''
+// }
 def call() {
     pipeline {
         agent any 

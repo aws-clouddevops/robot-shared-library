@@ -62,77 +62,77 @@ def testCases() {
 }
 
 
-def artifact() {
-      stage('Check the release') {
-           script {
-                env.UPLOAD_STATUS=sh(returnStdout: true, script: 'curl -L -s http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true')
-                print UPLOAD_STATUS       
-             }
-        }
-    if(env.UPLOAD_STATUS == "") {
-       stage('Prepare Artifacts') {
-             if(env.APPTYPE == "nodejs") {
-                sh ''' 
-                    ls -ltr 
-                    npm install 
-                    ls -ltr 
-                    zip -r ${COMPONENT}-${TAG_NAME}.zip node_modules server.js
+// def artifact() {
+//       stage('Check the release') {
+//            script {
+//                 env.UPLOAD_STATUS=sh(returnStdout: true, script: 'curl -L -s http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip || true')
+//                 print UPLOAD_STATUS       
+//              }
+//         }
+//     if(env.UPLOAD_STATUS == "") {
+//        stage('Prepare Artifacts') {
+//              if(env.APPTYPE == "nodejs") {
+//                 sh ''' 
+//                     ls -ltr 
+//                     npm install 
+//                     ls -ltr 
+//                     zip -r ${COMPONENT}-${TAG_NAME}.zip node_modules server.js
                    
-                   ''' 
-            }
-             else if(env.APPTYPE == "maven") {
-                sh ''' 
-                    mvn clean package 
-                    mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar
-                    zip -r ${COMPONENT}-${TAG_NAME}.zip ${COMPONENT}.jar
-                   ''' 
-            }
-
-             else if(env.APPTYPE == "angularjs") {
-                sh ''' 
-                    cd static
-                    zip -r ../${COMPONENT}-${TAG_NAME}.zip *                                 
-                   ''' 
-            }
-
-             else if(env.APPTYPE == "python") {
-                sh ''' 
-                   zip -r ${COMPONENT}-${TAG_NAME}.zip *.py *.ini requirements.txt                              
-                   ''' 
-            }
-             else {
-                sh '''                
-                    echo "This is an assignment for go"                                   
-                   ''' 
-            }
-       } 
-      stage('Upload Artifacts') {
-         withCredentials([usernamePassword(credentialsId: 'NEXUS', usernameVariable: 'NEXUS_USR', passwordVariable: 'NEXUS_PSW')]) {
-            sh ''' 
-             curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${COMPONENT}-${TAG_NAME}.zip http://172.31.11.49/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip
-                  
-             '''
-              }
-          }
-      }
-  }
-
-// def testCases() {
-//     stage('Test Cases') {
-//           stage('Unit Tests') {
-//                sh 'echo Unit Test Cases Completed'
-//               }    
-//           stage('Integration Tests') {
-//                 sh 'echo Integration Test Cases Completed'
-//               }
-                  
-//           stage('Functional Tests') {
-//                 sh 'echo Functional Test Cases Completed'      
-//                  }
+//                    ''' 
 //             }
-// }
+//              else if(env.APPTYPE == "maven") {
+//                 sh ''' 
+//                     mvn clean package 
+//                     mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar
+//                     zip -r ${COMPONENT}-${TAG_NAME}.zip ${COMPONENT}.jar
+//                    ''' 
+//             }
+
+//              else if(env.APPTYPE == "angularjs") {
+//                 sh ''' 
+//                     cd static
+//                     zip -r ../${COMPONENT}-${TAG_NAME}.zip *                                 
+//                    ''' 
+//             }
+
+//              else if(env.APPTYPE == "python") {
+//                 sh ''' 
+//                    zip -r ${COMPONENT}-${TAG_NAME}.zip *.py *.ini requirements.txt                              
+//                    ''' 
+//             }
+//              else {
+//                 sh '''                
+//                     echo "This is an assignment for go"                                   
+//                    ''' 
+//             }
+//        } 
+//       stage('Upload Artifacts') {
+//          withCredentials([usernamePassword(credentialsId: 'NEXUS', usernameVariable: 'NEXUS_USR', passwordVariable: 'NEXUS_PSW')]) {
+//             sh ''' 
+//              curl -f -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${COMPONENT}-${TAG_NAME}.zip http://172.31.11.49/repository/${COMPONENT}/${COMPONENT}-${TAG_NAME}.zip
+                  
+//              '''
+//               }
+//           }
+//       }
+//   }
+
+// // def testCases() {
+// //     stage('Test Cases') {
+// //           stage('Unit Tests') {
+// //                sh 'echo Unit Test Cases Completed'
+// //               }    
+// //           stage('Integration Tests') {
+// //                 sh 'echo Integration Test Cases Completed'
+// //               }
+                  
+// //           stage('Functional Tests') {
+// //                 sh 'echo Functional Test Cases Completed'      
+// //                  }
+// //             }
+// // }
 
 
 
-// For Non Java, Code source parameter is -Dsonar.sources=.
-// For Java, Code source parameter is -Dsonar.projectKey=target/
+// // For Non Java, Code source parameter is -Dsonar.sources=.
+// // For Java, Code source parameter is -Dsonar.projectKey=target/

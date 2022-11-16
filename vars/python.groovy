@@ -1,10 +1,14 @@
-def lintCheck() {
-    sh '''
-         echo starting lint checks ${COMPONENT}
-         # pylint *.py           # link checks
-         echo Lint checks completed for ${COMPONENT}
-    '''
+
+def call() {
+    node {
+        env.APPTYPE='python'
+        common.lintCheck()
+        env.ARGS="-Dsonar.sources=."
+        common.sonarCheck()
+        common.testCases()
+    }
 }
+
 def call() {
     pipeline {
         agent any
