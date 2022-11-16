@@ -29,14 +29,14 @@ def call() {
                     }
                 }
             }
-            stage('Sonar Checks') {
-                steps {
-                    script {
-                        env.ARGS=-Dsonar.sources=.
-                        common.sonarCheck()
-                    }
-                }
-            }
+            // stage('Sonar Checks') {
+            //     steps {
+            //         script {
+            //             env.ARGS=-Dsonar.sources=.
+            //             common.sonarCheck()
+            //         }
+            //     }
+            // }
             stage('Test Cases') {
             parallel{
                 stage('Unit Tests') {
