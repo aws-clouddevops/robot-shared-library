@@ -11,7 +11,7 @@ def lintCheck() {
 def call() {
     pipeline {
         agent any
-    environment{
+    environment {
         SONAR = credentials('SONAR')
         NEXUS = credentials('NEXUS')
     }
@@ -22,21 +22,21 @@ def call() {
                 }
             }
 
-            stage('Lint Checks') {
-                steps {
-                    script {
-                        lintCheck()
-                    }
-                }
-            }
-            // stage('Sonar Checks') {
-            //     steps {
-            //         script {
-            //             env.ARGS=-Dsonar.sources=.
-            //             common.sonarCheck()
-            //         }
-            //     }
-            // }
+              stage('Lint Checks') {
+                 steps {
+                     script {
+                         lintCheck()
+                     }
+                 }
+             }
+              stage('Sonar Checks') {
+                 steps {
+                     script {
+                         env.ARGS=-Dsonar.sources=.
+                         common.sonarCheck()
+                     }
+                 }
+             } 
             stage('Test Cases') {
             parallel{
                 stage('Unit Tests') {
@@ -62,7 +62,7 @@ def call() {
             }
             steps{
                 script{
-                    env.def UPLOAD_STATUS=sh(returnstdout: true, script: "curl http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep \${COMPONENT}-\${TAG_NAME}.zip" || true)
+                    env.def UPLOAD_STATUS=sh(returnstdout: true, script: "curl http://172.31.11.49:8081/service/rest/repository/browse/${COMPONENT} | grep ${COMPONENT}-${TAG_NAME}.zip" || true)
                     print UPLOAD_STATUS
                     }
                 }
