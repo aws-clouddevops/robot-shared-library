@@ -13,7 +13,6 @@ def call() {
         agent any
     environment {
         SONAR = credentials('SONAR')
-        NEXUS = credentials('NEXUS')
     }
         stages {
             stage('Downloading the dependencies') {
