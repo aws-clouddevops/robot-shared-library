@@ -1,11 +1,14 @@
-
 def call() {
     node {
+        git branch: 'main', url: "https://github.com/aws-clouddevops/${COMPONENT}.git"
         env.APPTYPE='maven'
         common.lintCheck()
-        env.ARGS="-Dsonar.sources=."
+        env.ARGS="-Dsonar.projectKey=target/"
         common.sonarCheck()
         common.testCases()
+        if (env.TAG_NAME != null) {
+            common.artifact()
+        }
     }
 }
 // def lintCheck() {
