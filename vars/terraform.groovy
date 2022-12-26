@@ -7,6 +7,7 @@ def call() {
 ])
 
     node {
+     ansiColor('xterm') {
         sh "rm -rf *"
         git branch: 'main', url: "https://github.com/aws-clouddevops/${REPONAME}.git"
 
@@ -26,6 +27,7 @@ def call() {
             sh '''
                 terraform ${ACTION} -var-file=env-${ENV}/${ENV}.tfvars -auto-approve
             '''
+            }
         }
     }
 }
